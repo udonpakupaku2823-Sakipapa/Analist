@@ -6,7 +6,7 @@ st.title("Excel検索ツール（Web版）")
 df = None
 
 # --- ファイル読み込み ---
-uploaded_file = st.file_uploader("Excelファイルを選択してください", type=["xlsx"])
+uploaded_file = st.file_uploader("umaData.xlsx", type=["xlsx"])
 
 if uploaded_file:
     try:
