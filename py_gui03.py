@@ -30,3 +30,31 @@ if st.button("検索"):
 
         st.write(f"検索結果：{len(result)} 件")
         st.dataframe(result)
+
+
+
+from google.cloud import firestore
+import datetime
+
+db = firestore.Client()
+
+st.title("レース観戦チャット")
+
+# メッセージ入力
+user = st.text_input("名前")
+text = st.text_input("メッセージ")
+
+if st.button("送信"):
+    db.collection("chat").add({
+        "user": user,
+        "text": text,
+        "time": datetime.datetime.now()
+    })
+
+# メッセージ表示
+st.subheader("チャットログ")
+messages = db.collection("chat").order_by("time").stream()
+
+for m in messages:
+    msg = m.to_dict()
+    st.write(f"{msg['time'].strftime('%H:%M:%S')} {msg['user']}：{msg['text']}")
